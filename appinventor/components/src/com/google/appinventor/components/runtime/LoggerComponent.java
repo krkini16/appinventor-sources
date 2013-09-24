@@ -77,4 +77,14 @@ public class LoggerComponent extends AndroidNonvisibleComponent
       Log.d(LOG_TAG, "I got onPause and my Logger Component!!!");
     }
   }
+  
+  // OnResumeListener implementation
+  public void onResume() {
+    if (Enabled()){
+      Log.d(LOG_TAG, "I got onResume and my Logger Component was ENABLED?!!!");
+    }
+    else {
+      Log.d(LOG_TAG, "I got onResume and my Logger Component!!!");
+    }
+  }
 }
