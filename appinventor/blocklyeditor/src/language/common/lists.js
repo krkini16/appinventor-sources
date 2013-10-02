@@ -181,22 +181,67 @@ Blockly.Language.lists_is_empty = {
   onchange: Blockly.WarningHandler.checkErrors,
   typeblock: [{ translatedName: Blockly.LANG_LISTS_TITLE_IS_EMPTY }]
 };
-
-Blockly.Language.lists_pick_random_item = {
+/* Assignment 4.2 Code Edits*/
+Blockly.Language.lists_pick_an_item = {
   // Length of list.
   category : Blockly.LANG_CATEGORY_LISTS,
-  helpUrl : Blockly.LANG_LISTS_PICK_RANDOM_ITEM_HELPURL,
+  helpUrl : function(){
+	  var mode = this.getTitleValue('PICK');
+	  return Blockly.Language.lists_pick_an_item.HELPURLS[mode];
+	  //Blockly.LANG_LISTS_PICK_RANDOM_ITEM_HELPURL,
+  }
   init : function() {
     this.setColour(Blockly.LIST_CATEGORY_HUE);
     this.setOutput(true, null);
-    this.appendValueInput('LIST').setCheck(Blockly.Language.YailTypeToBlocklyType("list",Blockly.Language.INPUT)).appendTitle('pick a random item').appendTitle('list');
-    Blockly.Language.setTooltip(this, Blockly.LANG_LISTS_PICK_RANDOM_TOOLTIP);
-    this.appendCollapsedInput().appendTitle('pick random', 'COLLAPSED_TEXT');
+    this.appendValueInput('LIST').setCheck(Blockly.Language.YailTypeToBlocklyType("list",Blockly.Language.INPUT)).appendTitle('pick').appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'PICK');
+    // Assign 'this' to a variable for use in the closures below
+    var thisBlock = this;
+    this.setTooltip(function() {
+    	var mode = thisBlock.getTitleValue('PICK');
+    	return Blockly.Language.lists_pick_an_item.TOOLTIPS[mode];
+    }//this, Blockly.LANG_LISTS_PICK_RANDOM_TOOLTIP);
+    this.appendCollapsedInput().appendTitle(this.getTitleValue('PICK'), 'COLLAPSED_TEXT');
   },
   onchange: Blockly.WarningHandler.checkErrors,
-  typeblock: [{ translatedName: Blockly.LANG_LISTS_PICK_RANDOM_TITLE_PICK_RANDOM }]
+  typeblock: [{ translatedName: Blockly.LANG_LISTS_PICK_RANDOM_TITLE_PICK_RANDOM,
+              dropDown: {
+            	  titleName: 'PICK',
+            	  value: 'PICK_RANDOM'
+              }
+  },{ 
+            translatedName: Blockly.LANG_LISTS_PICK_FIRST_TITLE_PICK_FIRST,
+              dropDown: {
+            	  titleName: 'PICK',
+            	  value: 'PICK_FIRST'
+              }
+  },{ translatedName: Blockly.LANG_LISTS_PICK_LAST_TITLE_PICK_LAST,
+              dropDown: {
+            	  titleName: 'PICK',
+            	  value: 'PICK_LAST'
+              }
+  }],
+              prepareCollapsedText: function(){
+            	    var titleFromOperator = Blockly.FieldDropdown.lookupOperator(this.OPERATORS, this.getTitleValue('PICK'));
+            	    this.getTitle_('COLLAPSED_TEXT').setText(titleFromOperator, 'COLLAPSED_TEXT');
+            	  }
 };
+Blockly.Language.lists_pick_an_item.OPERATORS =
+	  [[ 'random item', 'PICK_RANDOM' ],
+	   [ 'first item', 'PICK_FIRST' ],
+	   [ 'last item', 'PICK_LAST']];
 
+	Blockly.Language.lists_pick_an_item.TOOLTIPS = {
+	  PICK_RANDOM : Blockly.LANG_LISTS_PICK_RANDOM_TOOLTIP,
+	  PICK_FIRST : Blockly.LANG_LISTS_PICK_FIRST_TOOLTIP,
+	  PICK_LAST : Blockly.LANG_LISTS_PICK_LAST_TOOLTIP
+	};
+
+	Blockly.Language.lists_pick_an_item.HELPURLS = {
+	  PICK_RANDOM : Blockly.LANG_LISTS_PICK_RANDOM_ITEM_HELPURL,
+	  PICK_FIRST : Blockly.LANG_LISTS_PICK_FIRST_ITEM_HELPURL,
+	  PICK_LAST : Blockly.LANG_LISTS_PICK_LAST_ITEM_HELPURL
+	};
+/*Assignment 4.2 code edits end.*/
 Blockly.Language.lists_position_in = {
   // Postion of item in list.
   category : Blockly.LANG_CATEGORY_LISTS,
