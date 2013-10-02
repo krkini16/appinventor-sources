@@ -1036,6 +1036,9 @@
 ;;; Kludge based on Kawa compilation issues with 'not'
 (define (yail-not foo) (not foo))
 
+;;; /* Yail-not-not method
+(define (yail-not-not foo) (not (not foo)))
+
 ;;; Coercion code
 ;;; Ex: (call-with-coerced-args string-append (list 1 2 3) '(text text text) "join")
 ;;; This is currently used only for primitives, which is why, unlike "call", we're
